@@ -36,3 +36,18 @@ def recover_partial_key(ciphertexts):
                 key[index] = ord(' ') ^ main_ciphertext[index]
 
     return key
+
+
+def recover_key(ciphertexts):
+
+    sorted_ciphertexts = sorted(ciphertexts, key=len)
+    key = []
+
+    while len(sorted_ciphertexts) > 1:
+        key += recover_partial_key(sorted_ciphertexts)
+        string_length = len(sorted_ciphertexts[0])
+        sorted_ciphertexts = sorted_ciphertexts[1:]
+        for i in range(len(sorted_ciphertexts)):
+            sorted_ciphertexts[i] = sorted_ciphertexts[i][string_length:]
+
+    return key
